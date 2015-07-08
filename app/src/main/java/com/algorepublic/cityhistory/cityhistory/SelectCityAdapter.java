@@ -1,15 +1,16 @@
 package com.algorepublic.cityhistory.cityhistory;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.androidquery.AQuery;
 
-import java.util.ArrayList;
+import Model.SelectCityModel;
 
 /**
  * Created by waqas on 6/19/15.
@@ -21,53 +22,52 @@ public class SelectCityAdapter extends BaseAdapter {
     BaseClass base;
     LayoutInflater l_Inflater;
     BaseClass baseClass;
-    private static ArrayList<CityDetails> cityDetailsrrayList;
-    public SelectCityAdapter(Context ctx, ArrayList<CityDetails> results) {
+    public SelectCityAdapter(Context ctx) {
         super();
         this.ctx = ctx;
         baseClass = ((BaseClass)ctx.getApplicationContext());
         l_Inflater = LayoutInflater.from(ctx);
-        cityDetailsrrayList = new ArrayList<>();
-        cityDetailsrrayList.addAll(results);
     }
 
     @Override
     public int getCount() {
-        return cityDetailsrrayList.size();
+        return SelectCityModel.getInstance().results.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return cityDetailsrrayList.get(position);
+    public SelectCityModel.results getItem(int position) {
+        return SelectCityModel.getInstance().results.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
+        Log.e("Position of city item ",String.valueOf(position));
         return position;
     }
 
     @Override
-    public View getView(int i,  View convertView, ViewGroup viewGroup) {
+    public View getView(final int position,  View convertView, ViewGroup viewGroup) {
 
 
         View v ;
         ViewHolder holder;
         LayoutInflater mInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = mInflater.inflate(R.layout.activity_main, null);
+        v = mInflater.inflate(R.layout.select_city_item, null);
 
         aqAdapter = new AQuery(v);
         holder = new ViewHolder();
 
-        holder.city_Name = (ListView) v.findViewById(R.id.city_list);
+        holder.city_Name = (TextView) v.findViewById(R.id.city_name);
 
         v.setTag(holder);
-
+        holder.city_Name.setText(getItem(position).name);
         return v;
     }
 
     static class ViewHolder {
-        ListView city_Name;
+        TextView city_Name;
 
     }
 }

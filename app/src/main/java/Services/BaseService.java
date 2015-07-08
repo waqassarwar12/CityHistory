@@ -45,7 +45,7 @@ public class BaseService {
                             Gson gson = new Gson();
                             obj = gson.fromJson(json.toString(),
                                     obj.getClass());
-//                            Log.e("JSON::", json.toString());
+                            Log.e("JSON::", json.toString());
                             callBack.invoke(obj);
                         }else return;
 
